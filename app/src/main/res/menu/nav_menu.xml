@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    >
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home Page" />
+    <item
+        android:id="@+id/nav_articles"
+        android:title="Articles" />
+
+    <item
+        android:id="@+id/nav_favs"
+        android:title="Favourites" />
+
+
+    <item
+        android:id="@+id/nav_exit"
+        android:title="Exit"/>
+</menu>

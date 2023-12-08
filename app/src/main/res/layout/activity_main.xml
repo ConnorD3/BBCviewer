@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:alpha="255"
+   >
+
+
+<androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:alpha="255"
+    android:translationZ="90dp"
+
+
+    >
+    <TextView
+        android:id="@+id/toolTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""/>
+    <Button
+        android:id="@+id/but_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Help"
+        android:layout_gravity="end"/>
+</androidx.appcompat.widget.Toolbar>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="255"
+        tools:context=".MainActivity"
+        tools:ignore="HardcodedText">
+
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:elevation="10dp"
+            android:translationZ="91dp"
+            app:itemBackground="@android:color/holo_blue_light"
+            app:menu="@menu/nav_menu"
+            android:alpha="1.0"
+
+            />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</LinearLayout>
