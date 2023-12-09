@@ -1,30 +1,24 @@
 package com.example.bbcviewer;
 
-import static android.icu.text.MessagePattern.ArgType.SELECT;
-
-import static com.example.bbcviewer.DBHelper.TABLE;
-import static com.example.bbcviewer.DBHelper.URL;
-
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PreviewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PreviewFragment extends Fragment {
+public class PreviewFragment extends Fragment {//Fragment used to display info and actions that pertain to article selected
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +29,10 @@ public class PreviewFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    TextView t1 = getView().findViewById(R.id.tv1);
+    TextView t2 = getView().findViewById(R.id.tv2);
+    Button bt1 = getView().findViewById(R.id.b1);
+    Button bt2 = getView().findViewById(R.id.b2);
 
     public PreviewFragment() {
         // Required empty public constructor
@@ -68,34 +66,38 @@ public class PreviewFragment extends Fragment {
         }
 
 
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        SharedPreferences sp = this.getActivity().getSharedPreferences("prefs", 0);
-        String title1 = sp.getString("title", "");
-        String desc1 = sp.getString("desc", "");
-        String link1 = sp.getString("uri", "");
-        Uri link = Uri.parse(link1);
-        TextView t1 = getView().findViewById(R.id.tv1);
-        TextView t2 = getView().findViewById(R.id.tv2);
-        Button bt1 = getView().findViewById(R.id.b1);
-        Button bt2 = getView().findViewById(R.id.b2);
-        t1.setText(title1);
-        t2.setText(desc1);
-        bt1.setOnClickListener((click) ->{
-            Intent intent = new Intent(Intent.ACTION_VIEW, link);
-            startActivity(intent);
-        });
-        bt2.setOnClickListener((click) ->{
 
-           DBHelper dbHelper = new DBHelper(this.getActivity());
 
-           dbHelper.addFave(title1, desc1, link1);
-        });
 
 
         return inflater.inflate(R.layout.fragment_layout, container, false);
+    }
+    @Override
+    public void onAttach(Context context) {//loads shared preferences before layout inflated
+        super.onAttach(context);
+        SharedPreferences prefs = context.getSharedPreferences("prefs", 0);
+        String title1 = prefs.getString("title", " ");
+        String desc1 = prefs.getString("desc", " ");
+        String link1 = prefs.getString("uri", " ");
+        Uri link = Uri.parse(link1);
+        t1.setText(title1);
+        t2.setText(desc1);
+        bt1.setOnClickListener((click) ->{//Clicking button takes you to article on the website
+            Intent intent = new Intent(Intent.ACTION_VIEW, link);
+            startActivity(intent);
+        });
+        bt2.setOnClickListener((click) ->{//Button 2 adds data items to faves database on-click
+
+            DBHelper dbHelper = new DBHelper(this.getActivity());
+
+            dbHelper.addFave(title1, desc1, link1);
+        });
     }
 }

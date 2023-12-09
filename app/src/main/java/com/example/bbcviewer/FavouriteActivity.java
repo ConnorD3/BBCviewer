@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -79,10 +78,7 @@ public class FavouriteActivity extends MainActivity {
     }
 
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
-    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -103,7 +99,7 @@ public class FavouriteActivity extends MainActivity {
         }
         return false;
     }
-    private void dataGrab(){
+    private void dataGrab(){//Method used to fill listview in Favourites activity
         DBHelper db = new DBHelper(this);
         Cursor cursor = db.popList();
         if (cursor.getCount() == 0){

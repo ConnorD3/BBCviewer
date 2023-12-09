@@ -1,17 +1,12 @@
 package com.example.bbcviewer;
 
-import static android.icu.text.MessagePattern.ArgType.SELECT;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.SimpleCursorAdapter;
 
-import androidx.annotation.Nullable;
-
-public class DBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {//database helper used to create and fill database with favourited articles
     protected static final String DB = "favesDB";
     protected static final int VERSION = 1;
     public static final String TABLE = "mycourses";
@@ -36,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    public void addFave(String fTitle, String fDesc, String fUrl){
+    public void addFave(String fTitle, String fDesc, String fUrl){//call directly to add input data
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues vals = new ContentValues();
@@ -55,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE);
     }
 
-    public Cursor popList(){
+    public Cursor popList(){//creates cursor to hold data that will populate fields in other activities
        SQLiteDatabase db = this.getReadableDatabase();
         String cols[] = {DBHelper.ID,DBHelper.TITLE,DBHelper.DESC,DBHelper.URL};
         Cursor curs = db.query(DBHelper.TABLE,cols,null,null,null,null,DBHelper.ID);

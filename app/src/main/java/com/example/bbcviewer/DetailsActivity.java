@@ -1,7 +1,6 @@
 package com.example.bbcviewer;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -47,10 +46,6 @@ public class DetailsActivity extends MainActivity{
         }
 
 
-        @Override
-        public void onPointerCaptureChanged(boolean hasCapture) {
-            super.onPointerCaptureChanged(hasCapture);
-        }
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -1,15 +1,10 @@
 package com.example.bbcviewer;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -19,11 +14,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -31,18 +26,17 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ArticleActivity extends MainActivity {
     ArrayList<String> titles;
     ArrayList<String> descs;
     ArrayList<String> urls;
     ListView lv;
+    ProgressBar pbar = findViewById(R.id.pbar1);
+    Snackbar snackbar = Snackbar.make(ArticleActivity.this.getCurrentFocus(), "Articles finished populating", Snackbar.LENGTH_LONG);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +66,12 @@ public class ArticleActivity extends MainActivity {
         titles = new ArrayList<>();
         descs = new ArrayList<>();
         urls = new ArrayList<>();
+
+
         new BackgroundProcess().execute();
-        lv.setOnItemLongClickListener((parent, view, pos, id) -> {
+
+
+        lv.setOnItemLongClickListener((parent, view, pos, id) -> {//loads data loads title, description and url into sharedprefs to be used in next activity
             String title = titles.get(pos);
             String desc = descs.get(pos);
             String uri = urls.get(pos);
@@ -83,7 +81,7 @@ public class ArticleActivity extends MainActivity {
             edit.putString("desc", desc );
             edit.putString("uri", uri );
             edit.commit();
-            Toast.makeText(getApplicationContext(), title+" "+desc+" "+uri, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), title+" "+desc+" "+uri, Toast.LENGTH_LONG).show();//example toast shows
             Intent intent = new Intent(ArticleActivity.this, DetailsActivity.class);
             startActivity(intent);
 
@@ -94,10 +92,7 @@ public class ArticleActivity extends MainActivity {
     }
 
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
-    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -119,7 +114,7 @@ public class ArticleActivity extends MainActivity {
         return false;
     }
 
-    public InputStream getInputStream(URL url) {
+    public InputStream getInputStream(URL url) {//method opens connection to newsfeed
         try {
             return url.openConnection().getInputStream();
 
@@ -129,17 +124,31 @@ public class ArticleActivity extends MainActivity {
     }
 
     public class BackgroundProcess extends AsyncTask<Integer, Integer, String> {
-        ProgressBar pBar = new ProgressBar(ArticleActivity.this);
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pbar.setMax(100);
 
         }
 
         @Override
-        protected String doInBackground(Integer... integers) {
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            pbar.setProgress(values[0]);
+        }
 
+        @Override
+        protected String doInBackground(Integer... integers) {//fills arraylists with data from newsfeed
+            for(int i=0; i<100; i++){
+                publishProgress(i);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             try {
                 URL url = new URL("https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml");
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -186,10 +195,12 @@ public class ArticleActivity extends MainActivity {
 
 
             @Override
-            protected void onPostExecute (String s){
+            protected void onPostExecute (String s){//loads listview with data
                 super.onPostExecute(s);
                 ArrayAdapter<String> aDap = new ArrayAdapter<>(ArticleActivity.this, android.R.layout.simple_list_item_1, titles);
                 lv.setAdapter(aDap);
+                snackbar.show();//Snackbar occurs
+
             }
         }
     }

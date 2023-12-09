@@ -22,7 +22,13 @@
             android:id="@+id/toolTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""/>
+            android:text=" "/>
+        <EditText
+            android:id="@+id/sbar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Search"
+            android:layout_gravity="center_horizontal"/>
         <Button
             android:id="@+id/but_help"
             android:layout_width="wrap_content"
@@ -57,9 +63,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            />
-    </androidx.drawerlayout.widget.DrawerLayout>
+            >
 
+
+        </ListView>
+        <ProgressBar
+            android:id="@+id/pbar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="100dp"
+            />
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>
 
