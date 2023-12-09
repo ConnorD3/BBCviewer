@@ -199,7 +199,7 @@ public class ArticleActivity extends MainActivity {
                 super.onPostExecute(s);
                 ArrayAdapter<String> aDap = new ArrayAdapter<>(ArticleActivity.this, android.R.layout.simple_list_item_1, titles);
                 lv.setAdapter(aDap);
-                snackbar.show();//Snackbar occurs
+                snackbar.show();//Snackbar occurs.
 
             }
         }
